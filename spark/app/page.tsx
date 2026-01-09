@@ -1,14 +1,60 @@
+"use client"
+
 import LoginButton from "@/components/LoginLogoutButton";
+import TestPushButton from "@/components/TestPushButton";
 import UserGreetText from "@/components/UserGreetText";
 import Image from "next/image";
+import useFcmToken from "@/hooks/useFcmToken";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
+  const { token, notificationPermissionStatus } = useFcmToken();
+
+  const handleTestNotification = async () => {
+    const response = await fetch("/send-notification", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: token,
+        title: "Test Notification",
+        message: "This is a test notification",
+        link: "/contact",
+      }),
+    });
+
+    const data = await response.json();
+    console.log(data);
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
         <UserGreetText />
+        {/* <TestPushButton/> */}
         <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
           <LoginButton />
+        </div>
+        <div>
+          <h1 className="text-4xl mb-4 font-bold">Firebase Cloud Messaging Demo</h1>
+
+      {notificationPermissionStatus === "granted" ? (
+        <p>Permission to receive notifications has been granted.</p>
+      ) : notificationPermissionStatus !== null ? (
+        <p>
+          You have not granted permission to receive notifications. Please
+          enable notifications in your browser settings.
+        </p>
+      ) : null}
+
+      <Button
+        disabled={!token}
+        className="mt-5"
+        onClick={handleTestNotification}
+      >
+        Send Test Notification
+      </Button>
         </div>
       </div>
 
