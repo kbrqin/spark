@@ -9,6 +9,7 @@ const LoginButton = () => {
   const [user, setUser] = useState<any>(null);
   const router = useRouter();
   const supabase = createClient();
+
   useEffect(() => {
     const fetchUser = async () => {
       const {
@@ -18,9 +19,11 @@ const LoginButton = () => {
     };
     fetchUser();
   }, []);
+
   if (user) {
     return (
       <Button
+        variant="outline"
         onClick={() => {
           signout();
           setUser(null);
@@ -32,7 +35,7 @@ const LoginButton = () => {
   }
   return (
     <Button
-      variant="outline"
+      variant="default"
       onClick={() => {
         router.push("/login");
       }}
