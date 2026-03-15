@@ -2,11 +2,12 @@ import { Friend } from "@/types/types"
 import ProgressBar from "@/components/ProgressBar";
 
 interface FriendCardProps {
-  friend: Friend
+  friend: Friend,
+  double_stars_purchased: Boolean,
 }
 
 
-export default function FriendCard({ friend }: FriendCardProps) {
+export default function FriendCard({ friend, double_stars_purchased }: FriendCardProps) {
   return (
     <div className="flex gap-4 p-4 rounded-xl border">
       <div className="w-12 h-12 bg-gray-300 rounded-md" />
@@ -33,7 +34,7 @@ export default function FriendCard({ friend }: FriendCardProps) {
         )}
 
         <button className="mt-2 bg-teal-400 text-white px-3 py-1 rounded-lg text-sm">
-          send reminder ⭐
+          send reminder {double_stars_purchased ? "2⭐" : "⭐"}
         </button>
       </div>
     </div>

@@ -41,12 +41,17 @@ export default function DashboardClient({ habits }: Props) {
   }, [fetchFriends]);
 
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [stars, setStars] = useState<Number>(0);
+  const [doubleStarsPurchased, setDoubleStarsPurchased] =
+    useState<Boolean>(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
       const p = await sbGetCurrentProfile();
       setProfile(p);
       setUsername(p?.username ?? null);
+      setDoubleStarsPurchased(p?.double_stars_purchased ?? false);
+      setStars(doubleStarsPurchased ? (p?.stars ?? 0 * 2) : (p?.stars ?? 0));
     };
     fetchProfile();
   }, []);
@@ -86,7 +91,7 @@ export default function DashboardClient({ habits }: Props) {
             <SectionCard className="flex-1 flex flex-row justify-between items-center">
               <ProfileCard
                 username={username ?? "hey you!"}
-                exp={profile?.exp ?? 0} // fetch current user's exp/level/stars
+                exp={profile?.exp ?? 0}
                 level={profile?.level ?? 1}
                 stars={profile?.stars ?? 0}
               />
@@ -128,7 +133,11 @@ export default function DashboardClient({ habits }: Props) {
           >
             <div className="space-y-4">
               {friends.map((f) => (
-                <FriendCard key={f.id} friend={f} />
+                <FriendCard
+                  key={f.id}
+                  friend={f}
+                  double_stars_purchased={doubleStarsPurchased}
+                />
               ))}
             </div>
           </SectionCard>

@@ -1,4 +1,5 @@
 import ProgressBar from "@/components/ProgressBar";
+import Link from "next/link";
 
 interface ProfileCardProps {
   username: string;
@@ -18,6 +19,7 @@ export default function ProfileCard({ username, exp, level, stars }: ProfileCard
           <span>Lvl {level}</span>
           <span>⋅</span>
           <span>{stars} ⭐</span>
+          <Link href="/shop" className="underline">shop</Link>
         </div>
         <ProgressBar value={exp} max={level * 100} />
       </div>

@@ -23,4 +23,5 @@ export interface Profile {
   exp: number;
   level: number;
   stars: number;
+  double_stars_purchased: boolean;
 }
